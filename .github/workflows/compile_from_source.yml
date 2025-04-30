@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      FACTORY_IMAGE: raven-ap4a.250205.002
+      FACTORY_IMAGE: raven-bp1a.250405.007
   
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -42,13 +42,15 @@ jobs:
         run: |
           mkdir android-kernel
           cd android-kernel
-          repo init -u https://android.googlesource.com/kernel/manifest -b android-gs-raviole-5.10-android15-qpr1
+          
+          repo init -u https://android.googlesource.com/kernel/manifest -b android-gs-raviole-6.1-android15-qpr2-beta
+          
           repo sync -c --no-tags
 
       - name: Update vendor ramdisk (through curl)
         if: true
         run: |
-          curl "https://dl.google.com/dl/android/aosp/raven-ap4a.250205.002-factory-d8162d11.zip" > factory.zip
+          curl "https://dl.google.com/dl/android/aosp/raven-bp1a.250405.007-factory-ab3ddad9.zip" > factory.zip
           unzip factory.zip
           cd ${FACTORY_IMAGE}
           unzip image-${FACTORY_IMAGE}.zip vendor_boot.img
