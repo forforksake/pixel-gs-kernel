@@ -31,33 +31,9 @@ jobs:
         with:
           workflow: compile_from_source.yml
 
-      - name: Download Magisk v27.0
+      - name: Kernel-SU next
         run: |
-          mkdir Magisk
-          cd Magisk
-          curl -L https://github.com/topjohnwu/Magisk/releases/download/v27.0/Magisk-v27.0.apk > Magisk.apk
-          unzip -o Magisk.apk
+        cd android-kernel
+        curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next
 
-      - name: Fetch relevant files from Magisk
-        run: |
-          mkdir Magic
-          cp Magisk/assets/boot_patch.sh Magic
-          cp Magisk/lib/x86_64/libmagiskboot.so Magic
-          cp Magisk/lib/armeabi-v7a/libmagisk32.so Magic
-          cp Magisk/lib/arm64-v8a/libmagisk64.so Magic
-          cp Magisk/lib/arm64-v8a/libmagiskinit.so Magic
-
-      - name: Fetch other files needed 
-        run: |
-          cp util_functions.sh Magic
-          cd the-images
-          unzip the-images.zip
-          cd ..
-          cp the-images/images/boot.img Magic
-
-      - name: Run the magic
-        run: |
-          chmod +x Magic/*
-          cd Magic
-          sh boot_patch.sh boot.img
   
