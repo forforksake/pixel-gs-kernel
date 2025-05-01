@@ -50,14 +50,14 @@ jobs:
           mkdir android-kernel
           cd android-kernel
           echo "Initializing and syncing kernel source..."
-          $REPO init --u --depth=1 https://android.googlesource.com/kernel/manifest -b android-gs-raviole-6.1-android15-qpr2-beta --repo-rev=v2.16
+          $REPO init --u https://android.googlesource.com/kernel/manifest -b android-gs-raviole-6.1-android15-qpr2-beta --repo-rev=v2.16
           $REPO --version
           $REPO --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 
       - name: Update vendor ramdisk (locally)
     
         run: |
-          cp vendor_ramdisk00 android-kernel/prebuilts/boot-artifacts/ramdisks/vendor_ramdisk-oriole.img
+          mv vendor_ramdisk00 android-kernel/prebuilts/boot-artifacts/ramdisks/vendor_ramdisk-oriole.img
 
       - name: Compile Kernel
         run: |
