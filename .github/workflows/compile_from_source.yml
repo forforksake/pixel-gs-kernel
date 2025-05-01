@@ -54,25 +54,8 @@ jobs:
           $REPO --version
           $REPO --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 
-      - name: Update vendor ramdisk (through curl)
-        if: true
-        run: |
-          curl "https://dl.google.com/dl/android/aosp/raven-bp1a.250405.007-factory-ab3ddad9.zip" > factory.zip
-          unzip factory.zip
-          cd ${FACTORY_IMAGE}
-          unzip image-${FACTORY_IMAGE}.zip vendor_boot.img
-          mv vendor_boot.img ..
-          cd ..
-          ls
-          pwd
-          mkdir android-kernel/prebuilts
-          mkdir android-kernel/prebuilts/boot-artifacts
-          mkdir android-kernel/prebuilts/boot-artifacts/ramdisks
-          android-kernel/tools/mkbootimg/unpack_bootimg.py --boot_img vendor_boot.img --out vendor_boot_out
-          cp vendor_boot_out/vendor-ramdisk-by-name/ramdisk_* android-kernel/prebuilts/boot-artifacts/ramdisks/vendor_ramdisk-oriole.img
-
       - name: Update vendor ramdisk (locally)
-        if: false
+    
         run: |
           cp vendor_ramdisk00 android-kernel/prebuilts/boot-artifacts/ramdisks/vendor_ramdisk-oriole.img
 
